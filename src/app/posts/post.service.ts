@@ -30,6 +30,16 @@ export class PostService {
 		});
 	}
 
+	addPost(post: Post): Observable<Post> {
+		const url = `${environment.apiUrl}/posts`;
+		const data = JSON.stringify(post);
+		return this.http.post(url, data, this.getRequestOptions())
+		  .map(r => r.json())
+		  .map((savedPost: Post) => {
+			return new Post(savedPost._id, savedPost.user_id, savedPost.username, savedPost.content, savedPost.time, savedPost.comments);
+		  });
+	  }
+
 	private getRequestOptions(): RequestOptionsArgs {
 		const headers = new Headers({
 		'Content-Type': 'application/json'

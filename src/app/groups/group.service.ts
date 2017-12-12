@@ -4,7 +4,7 @@ import { Http, Headers, RequestOptionsArgs } from '@angular/http';
 import { Subject, Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { Group } from './group.model';
-import { Comment } from '../shared/comment.model';
+import { Comment } from '../Comments/comment.model';
 import { environment } from '../../environments/environment';
 
 @Injectable()

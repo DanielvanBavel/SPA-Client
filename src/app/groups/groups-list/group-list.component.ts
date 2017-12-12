@@ -6,17 +6,16 @@ import { GroupService } from '../group.service';
 import { BaseComponent } from '../../shared/basecomponent.class';
 
 @Component({
-  selector: 'app-group-list',
-  templateUrl: './group-list.component.html'
+	selector: 'app-group-list',
+  	templateUrl: './group-list.component.html'
 })
-export class GroupListComponent extends BaseComponent implements OnInit {
-  public groups: Group[];
 
-  constructor(private groupService: GroupService,
-    private router: Router,
-    private route: ActivatedRoute) {
-    super();
-  }
+export class GroupListComponent extends BaseComponent implements OnInit {
+  	public groups: Group[];
+
+  	constructor(private groupService: GroupService, private router: Router, private route: ActivatedRoute) {
+    	super();
+  	}
 
   ngOnInit() {
     this.subscription = this.groupService.groupsChanged
@@ -48,6 +47,8 @@ export class GroupListComponent extends BaseComponent implements OnInit {
   	}
 
   	onEditItem(group: Group) {
-    	this.groupService.startedEditing.next(group._id);
+		this.groupService.startedEditing.next(group._id);
+		
+		this.router.navigate([group._id], {relativeTo: this.route});
   	}
 }

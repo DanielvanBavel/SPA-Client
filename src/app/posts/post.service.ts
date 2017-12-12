@@ -4,11 +4,15 @@ import { Http, Headers, RequestOptionsArgs } from '@angular/http';
 import { Subject, Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { Post } from './post.model';
-import { Comment } from '../shared/comment.model';
+import { Comment } from '../comments/comment.model';
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class PostService {
+
+	postAdded = new Subject<Post>();
+	postUpdated = new Subject<Post>();	
+	postDeleted = new Subject<string>();
 
 	constructor(private http: Http) { }
 
@@ -17,7 +21,7 @@ export class PostService {
 		return this.http.get(url, this.getRequestOptions())
 		.map(r => r.json())
 		.map((posts: Post[]) => {
-			return posts.map(post => new Post(post._id, post.username, post.user_id, post.content, post.time, post.comments));
+			return posts.map(post => new Post(post._id, post.user_id, post.username, post.content, post.time, post.comments));
 		});
 	}
 
@@ -26,7 +30,18 @@ export class PostService {
 		return this.http.get(url, this.getRequestOptions())
 		.map(r => r.json())
 		.map((post: Post) => {
-			return new Post(post._id, post.username, post.user_id, post.content, post.time, post.comments);
+			return new Post(post._id, post.user_id, post.username, post.content, post.time, post.comments);
+		});
+	}
+
+	updatePost(id: string, post: Post): Observable<Post> {
+		const url = `${environment.apiUrl}/posts/${id}`;
+		const data = JSON.stringify(post);
+
+		return this.http.put(url, data, this.getRequestOptions())
+			.map(r => r.json())
+			.map((post: Post) => {
+				return new Post(post._id, post.user_id, post.username, post.content, post.time, post.comments);
 		});
 	}
 
@@ -34,11 +49,17 @@ export class PostService {
 		const url = `${environment.apiUrl}/posts`;
 		const data = JSON.stringify(post);
 		return this.http.post(url, data, this.getRequestOptions())
-		  .map(r => r.json())
-		  .map((savedPost: Post) => {
+		.map(r => r.json())
+		.map((savedPost: Post) => {
 			return new Post(savedPost._id, savedPost.user_id, savedPost.username, savedPost.content, savedPost.time, savedPost.comments);
-		  });
-	  }
+		});
+	}
+
+	deletePost(id: string) {
+		const url = `${environment.apiUrl}/posts/${id}`;
+		return this.http.delete(url, this.getRequestOptions())
+			.map(r => r.json());
+	}
 
 	private getRequestOptions(): RequestOptionsArgs {
 		const headers = new Headers({

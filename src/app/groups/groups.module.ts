@@ -11,6 +11,7 @@ import { GroupsRoutingModule } from './groups-routing.module';
 import { GroupItemComponent } from './groups-list/group-item/group-item.component';
 import { PostsComponent } from '../posts/posts.component';
 import { GroupEditComponent } from './groups-edit/group-edit.component';
+import { CommentsComponent } from '../comments/comments.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { GroupEditComponent } from './groups-edit/group-edit.component';
     GroupListComponent,
     GroupItemComponent,
     GroupEditComponent,
-    PostsComponent
+    PostsComponent,
+    CommentsComponent
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: ''
+  apiUrl: 'https://spa-server-avans.herokuapp.com/api/v1/'
 };

@@ -7,7 +7,6 @@ import { GroupsComponent } from './groups/groups.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  //{ path: 'timeline', component: PostsComponent },
   { path: 'groups', loadChildren: './groups/groups.module#GroupsModule'},
   { path: 'login', component: LoginComponent },
 ];

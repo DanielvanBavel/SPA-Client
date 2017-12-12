@@ -1,4 +1,10 @@
 export class Comment {
+    
+    /**
+     * The id of a user
+     */
+    public _id: string;
+    
     /**
      * The username of a user
      */
@@ -7,17 +13,18 @@ export class Comment {
     /**
      * The comment under a post
      */
-    public content: string;
+    public reply: string;
 
 
     /**
      * The time when a comment is placed
      */
-    public time: Date;
+    public time: number;
   
-    constructor(username: string, content: string, time: Date) {
+    constructor(id: string, username: string, reply: string, time: number) {
+        this._id = id;
         this.username = username;
-        this.content = content;
+        this.reply = reply;
         this.time = time;
     }
 }

@@ -15,6 +15,8 @@ export class GroupService {
 	groupUpdated = new Subject<Group>();
 	groupDeleted = new Subject<string>();
 	showPost = new Subject<Post[]>();
+	postUpdated = new Subject<Post>();
+
 
 	startedEditing = new Subject<string>();
 

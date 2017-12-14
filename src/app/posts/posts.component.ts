@@ -46,33 +46,24 @@ export class PostsComponent extends BaseComponent implements OnInit {
             this.groupService.getGroup(this.groupId).subscribe((response) => {
                 this.posts = response.posts;
             });
+
+            this.groupService.groupUpdated.subscribe((group) => {
+                this.groups.forEach(item => {
+                    item.posts.forEach(newItem => {
+                        const postObjectId = newItem._id;
+                        const index = item.posts.findIndex(x => x._id === postObjectId);
+                        if(index === -1) {
+                            this.groups.push(item);                  
+                        }
+                        else {
+                            //
+                        }
+                    });
+                });            
+            });
         });
         
-        this.groupService.groupUpdated.subscribe((group) => { 
-            
-            console.log(this.postId);
-            group.posts.forEach(item => {
-
-                
-            
-            
-
-                console.log(item._id, this.postId)
-                // if(item._id === this.postId) {
-                //     console.log("test12345");
-                //     const index = this.groupObject.posts.findIndex(x => x._id === this.postId);
-                //     conso
-                //     if(index === -1) {
-                //         console.log("asfs");       
-                //         this.groups.push(group); 
-                //     }
-                //     else {
-                //         console.log("tsst");
-                //         this.groups[index] = group;
-                //     } 
-                // }
-            });                  
-        });
+        
     }
 
     onSubmit(form: NgForm) {

@@ -2,5 +2,5 @@
     <div class="form-group">
         <input type="text" class="form-control" name="reply" rows="5" cols="30" ngModel required >
     </div>
-    <button type="submit" class="btn btn-primary">Add comment</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Add comment</button>
 </form> 

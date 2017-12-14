@@ -36,7 +36,7 @@
             <div class="form-group">
                 <input type="text" class="form-control" name="content" rows="5" cols="30" ngModel required >
             </div>
-            <button type="submit" class="btn btn-primary">plaats bericht</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid">plaats bericht</button>
         </form>
     </div> 
 </div>   

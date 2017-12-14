@@ -16,7 +16,7 @@ export class GroupEditComponent extends BaseComponent implements OnInit {
 	@ViewChild('f')
 	public form: NgForm;
 	private id: string;	
-	private editMode = false;
+	public editMode = false;
 
 	private editedItemIndex: string;
 	private group: Group;

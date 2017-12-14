@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import { Group } from './group.model';
 import { Comment } from '../Comments/comment.model';
 import { environment } from '../../environments/environment';
+import { Post } from '../posts/post.model';
 
 @Injectable()
 export class GroupService {
@@ -14,6 +15,7 @@ export class GroupService {
 	groupAdded = new Subject<Group>();
 	groupUpdated = new Subject<Group>();
 	groupDeleted = new Subject<string>();
+	showPost = new Subject<Post[]>();
 
 	startedEditing = new Subject<string>();
 
@@ -24,7 +26,7 @@ export class GroupService {
 		return this.http.get(url, this.getRequestOptions())
 		.map(r => r.json())
 		.map((groups: Group[]) => {
-			return groups.map(group => new Group(group._id, group.name, []));
+			return groups.map(group => new Group(group._id, group.name, group.posts));
 		});
     }
     
@@ -33,7 +35,7 @@ export class GroupService {
 		return this.http.get(url, this.getRequestOptions())
 		.map(r => r.json())
 		.map((group: Group) => {
-			return new Group(group._id, group.name, []);
+			return new Group(group._id, group.name, group.posts);
 		});
 	}
 
@@ -43,19 +45,17 @@ export class GroupService {
 		return this.http.post(url, data, this.getRequestOptions())
 		  .map(r => r.json())
 		  .map((group: Group) => {
-			return new Group(group._id, group.name, []);
+			return new Group(group._id, group.name, group.posts);
 		});
 	}
 
 	updateGroup(id: string, group: Group): Observable<Group> {
 		const url = `${environment.apiUrl}/groups/${id}`;
 		const data = JSON.stringify(group);
-
-		console.log(url, data);
 		return this.http.put(url, data, this.getRequestOptions())
 			.map(r => r.json())
 			.map((group: Group) => {
-				return new Group(group._id, group.name, []);
+				return new Group(group._id, group.name, group.posts);
 		});
 	}
 	

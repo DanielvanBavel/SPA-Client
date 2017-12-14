@@ -25,7 +25,7 @@ export class GroupListComponent extends BaseComponent implements OnInit {
 	  
     this.groupService.getGroups()
       	.subscribe((response) => {
-        	this.groups = response;
+			this.groups = response;
 	  	});
 	  
     this.groupService.groupAdded
@@ -47,8 +47,7 @@ export class GroupListComponent extends BaseComponent implements OnInit {
   	}
 
   	onEditItem(group: Group) {
-		this.groupService.startedEditing.next(group._id);
-		
+		this.groupService.startedEditing.next(group._id);		
 		this.router.navigate([group._id], {relativeTo: this.route});
   	}
 }

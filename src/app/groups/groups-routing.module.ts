@@ -12,7 +12,7 @@ const groupsRoutes: Routes = [
   {
     path: '', component: GroupsComponent, children: [
       { path: '', component: GroupStartComponent },
-      { path: ':id', component: PostsComponent },
+      { path: ':id', component: PostsComponent }
     ]
   },
 ];

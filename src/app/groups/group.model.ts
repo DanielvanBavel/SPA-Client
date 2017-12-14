@@ -9,6 +9,6 @@ export class Group {
     constructor(id: string, name: string, posts: Post[]) {
         this._id = id || '';
         this.name = name || '';
-        this.posts = posts || [];
+        this.posts = posts;
     }
 }

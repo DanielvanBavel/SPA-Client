@@ -1,15 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Post } from './post.model';
-import { PostService } from './post.service';
 import { BaseComponent } from '../shared/basecomponent.class';
 import { User } from '../user/user.model';
 import { DatePipe } from '@angular/common';
+import { GroupService } from '../groups/group.service';
+import { Group } from '../groups/group.model';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  providers: [PostService]
+  styleUrls: ['./post.component.css'],
+  providers: [GroupService]
 })
 
 export class PostsComponent extends BaseComponent implements OnInit {
@@ -18,41 +21,78 @@ export class PostsComponent extends BaseComponent implements OnInit {
 	public form: NgForm;
     private id: string;
 
-    private editMode = false;    
-    public posts: Post[];
-    public post: Post;
+    private groupId: string;
 
-    constructor(private postService: PostService) {
+    @Input()
+    private postId: string;
+
+    private groupObject: Group;
+    public groups: Group[];
+    private editMode = false;  
+    public posts: Post[];
+
+    constructor(private groupService: GroupService, private router: Router, private route: ActivatedRoute) {
         super();
     }
 
     ngOnInit() {
-        this.postService.getPosts().subscribe((response) => {
-            this.posts = response;
+        this.groupService.getGroups().subscribe((response) => {
+			this.groups = response
         });
 
-        this.postService.postUpdated.subscribe((post) => {
-            const index = this.posts.findIndex(x => x._id === post._id);
-            if(index === -1) {
-                this.posts.push(post);
-            }
-            else {
-                this.posts[index] = post;
-            }          
+        this.subscription = this.route.params.subscribe((params: Params) => {
+            this.groupId = params['id'];
+
+            this.groupService.getGroup(this.groupId).subscribe((response) => {
+                this.posts = response.posts;
+            });
+        });
+        
+        this.groupService.groupUpdated.subscribe((group) => { 
+            
+            console.log(this.postId);
+            group.posts.forEach(item => {
+
+                
+            
+            
+
+                console.log(item._id, this.postId)
+                // if(item._id === this.postId) {
+                //     console.log("test12345");
+                //     const index = this.groupObject.posts.findIndex(x => x._id === this.postId);
+                //     conso
+                //     if(index === -1) {
+                //         console.log("asfs");       
+                //         this.groups.push(group); 
+                //     }
+                //     else {
+                //         console.log("tsst");
+                //         this.groups[index] = group;
+                //     } 
+                // }
+            });                  
         });
     }
 
     onSubmit(form: NgForm) {
-        const { id, user_id, username, content, time, comments } = form.value;
-        const post = new Post(id, '5a2550ca5179b81be0241339', 'henkie', content, Date.now(), []);        
-        post._id = this.id;
-
         if(this.editMode) {
             // edit
         }  
         else {
-            this.postService.addPost(post).subscribe((response) => {
-                this.posts.push(response);
+            const { id, user_id, username, content, time, comments } = form.value;
+            const post = new Post(id, '5a2550ca5179b81be0241339', 'henkie', content, Date.now(), []);        
+            post._id = this.id;
+
+
+            const currentGroup = this.groupService.getGroup(this.groupId).subscribe((response) => {
+                this.groupObject = response;
+
+                this.groupObject.posts.push(post);
+                
+                this.groupService.updateGroup(this.groupId, this.groupObject).subscribe((response) => {
+                    this.groupService.groupUpdated.next(response);
+                });
             });
         }
         this.onClear();       
@@ -63,22 +103,36 @@ export class PostsComponent extends BaseComponent implements OnInit {
     }
     
     onDeletePost(id) {
-        this.postService.deletePost(id).subscribe(() => {
-            const index = this.posts.findIndex(x => x._id === id);
-            this.posts.splice(index, 1);
+        this.groupService.getGroup(this.groupId).subscribe((response) => {
+            this.groupObject = response;
+            
+            this.groupObject.posts.forEach(item => {
+                if(item._id === id) {
+                    const index = this.groupObject.posts.findIndex(x => x._id === id);
+                    this.groupObject.posts.splice(index, 1);
+                }
+            });
+
+            this.groupService.updateGroup(this.groupId, this.groupObject).subscribe((response) => {
+                this.groupService.groupUpdated.next(response);
+            });
         });
     }
 
     onDeleteComment(postId, commentId) {
 
-		const currentPost =  this.postService.getPost(postId).subscribe((response) => {
-            this.post = response;
+		const currentPost =  this.groupService.getGroup(this.groupId).subscribe((response) => {
+            this.groupObject = response;
+            
+            this.groupObject.posts.forEach(item => {
+                if(item._id === postId ) {
+                    const index = item.comments.findIndex(x => x._id === commentId);
+                    item.comments.splice(index, 1);
+                }
+            });
 
-            const index = this.post.comments.findIndex(x => x._id === commentId);
-            this.post.comments.splice(index, 1);
-
-            this.postService.updatePost(postId, this.post).subscribe((response) => {
-                this.postService.postUpdated.next(response);
+            this.groupService.updateGroup(this.groupId, this.groupObject).subscribe((response) => {
+                this.groupService.groupUpdated.next(response);
             });
 		});
     }

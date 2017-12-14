@@ -43,7 +43,7 @@ export class GroupEditComponent extends BaseComponent implements OnInit {
 
 	onSubmit(form: NgForm) {
 		const { id, name, posts } = form.value;
-		const group = new Group(id, name, []);
+		const group = new Group(id, name, posts);
 	
 		group._id = this.id;
 

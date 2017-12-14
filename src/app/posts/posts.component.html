@@ -10,12 +10,10 @@
         <div class="media-body">
             <h4 class="media-heading"><a href="">{{post.username}}</a></h4>
             <p> {{post.content}}</p>
-            <ul class="list-inline">
-                <time>{{post.time | date:'d MMMM y, HH:mm' }}</time>
-            </ul>
+            <span><time>{{post.time | date:'d MMMM y, HH:mm' }}</time></span>
 
             <div class="media replies" >
-                <div *ngFor="let comment of post.comments">
+                <div  *ngFor="let comment of post.comments"       >
                     <button type="button" (click)="onDeleteComment(post._id, comment._id)" class="close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -25,9 +23,7 @@
                     <div class="media-body">
                         <h5 class="media-heading"><a href="">{{comment.username}}</a></h5>
                         <p>{{comment.reply}}</p>
-                        <ul class="list-inline">
-                            <time>{{comment.time | date:'d MMMM y, HH:mm' }}</time>
-                        </ul>
+                        <span><time>{{comment.time | date:'d MMMM y, HH:mm' }}</time></span>
                     </div>
                 </div>
                 <app-comments [postId]="post._id"></app-comments>                
@@ -35,10 +31,12 @@
         </div>
     </div>                        
 
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-        <div class="form-group">
-            <input type="text" class="form-control" name="content" rows="5" cols="30" ngModel required >
-        </div>
-        <button type="submit" class="btn btn-primary">plaats bericht</button>
-    </form>    
+    <div style="margin-top: 30px;">
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="form-group">
+                <input type="text" class="form-control" name="content" rows="5" cols="30" ngModel required >
+            </div>
+            <button type="submit" class="btn btn-primary">plaats bericht</button>
+        </form>
+    </div> 
 </div>   

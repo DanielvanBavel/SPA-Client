@@ -1,0 +1,8 @@
+span > time {
+    font-size: 11.5px;
+    color: #000000;
+}
+
+.media.replies > div {
+    margin-bottom: 15px;
+}

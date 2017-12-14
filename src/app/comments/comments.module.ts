@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { PostService } from '../posts/post.service';
+import { GroupService } from '../groups/group.service';
 import { CommentsComponent } from './comments.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -15,7 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule
   ],
   providers: [
-    PostService
+    GroupService
   ]
 })
 export class CommentsModule {}

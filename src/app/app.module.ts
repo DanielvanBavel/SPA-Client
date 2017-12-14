@@ -7,15 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { PostsComponent } from './posts/posts.component';
-import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { GroupsComponent } from './groups/groups.component';
+import { CommentsComponent} from './comments/comments.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,12 +8,11 @@ import { GroupService } from '../groups/group.service';
 
 @NgModule({
   declarations: [
-    PostsComponent,
-    ReactiveFormsModule,
-    FormsModule
   ],
   imports: [
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     GroupService

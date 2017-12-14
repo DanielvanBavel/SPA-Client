@@ -5,15 +5,16 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start.prod.aot": "node server.js",
-    "build": "ng build",
-    "build.prod": "ng build --prod",
-    "build.prod.aot": "ng build --aot --prod",
+    "build": "ng build --prod --env=prod ",
+    "postinstall": "ng build --prod --env=prod ",
+    "build:prod": "ng build --prod --env=prod && node server.js",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",    
-    "serve.prod": "ng serve --prod",
-    "postinstall": "npm run build.prod.aot"
+    "e2e": "ng e2e"
+  },
+  "engines": {
+    "node": "^8.8.3",
+    "npm": "^5.5.0"
   },
   "private": true,
   "dependencies": {
